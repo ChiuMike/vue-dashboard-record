@@ -3,6 +3,10 @@ import Router from 'vue-router';
 import Login from '@/components/pages/Login';
 import Dashboard from '@/components/Dashboard';
 import Products from '@/components/pages/Products';
+import Orders from '@/components/CustomerOrders';
+import Checkout from '@/components/pages/CustomerCheckOut';
+import BackOrder from '@/components/pages/BackOrder';
+import Cupon from '@/components/pages/Cupon';
 Vue.use(Router);
 export default new Router({
     routes:[
@@ -26,7 +30,36 @@ export default new Router({
                     component:Products,
                     meta: { requiresAuth: true },
                 },
+                {
+                    path:'backorder',
+                    name:'BackOrder',
+                    component:BackOrder,
+                    meta: { requiresAuth: true },
+                },
+                {
+                    path:'cupon',
+                    name:'Cupon',
+                    component:Cupon,
+                    meta: { requiresAuth: true },
+                }
             ]
         },
+        {
+            path:'/',
+            name:'Dashboard',
+            component:Dashboard,
+            children:[
+                {
+                    path:'customerorders',
+                    name:'Orders',
+                    component:Orders,
+                },
+                {
+                    path:'customercheckout/:orderId',
+                    name:'checkout',
+                    component:Checkout,
+                },
+            ]
+        }
     ]
 });

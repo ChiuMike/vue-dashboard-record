@@ -29,7 +29,7 @@
           <input type="checkbox" value="remember-me" /> 記住我
         </label>
       </div>
-      <button class="w-100 btn btn-lg btn-primary" type="submit">
+      <button class="w-100 btn btn-lg btn-secondary" type="submit">
         Sign in
       </button>
       <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
@@ -49,11 +49,16 @@ export default {
   },
   methods: {
     signin() {
-      const api = `${process.env.APIPATH}/signin`;
+      const api = `${process.env.APIPATH}/admin/signin`;
       const vm=this;
+      //post傳送帳密到後端
       vm.$http.post(api,vm.user).then((response) => {
-        console.log(response.data);
+        console.log("有沒有登入成功?=",response.data);
         if(response.data.success) {
+            const token=response.data.token;
+            const expired=response.data.expired;
+            console.log("token,expired=",token,expired);
+            document.cookie=`hexToken=${token}; expires=${new Date(expired)};`; //將cookie存入前端
             vm.$router.push('/admin/products')
         }
       });
@@ -101,5 +106,4 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-
 </style>

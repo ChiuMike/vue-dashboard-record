@@ -21,9 +21,26 @@
       />
       <div class="navbar-nav">
         <div class="nav-item text-nowrap">
-          <a class="nav-link px-3" href="#">Sign out</a>
+          <a class="nav-link px-3" href="#" @click.prevent="signout">登出</a>
         </div>
       </div>
     </header>
   </div>
 </template>
+
+<script>
+export default{
+  name:'Navbar',
+  methods:{
+    signout(){
+      const vm=this;
+      const api=`${process.env.APIPATH}/logout`;
+      this.$http.post(api).then((response)=>{
+        if(response.data.success){
+          vm.$router.push('/login')
+        }
+      })
+    }
+  }
+}
+</script>
